@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+
+    depends_on:
+      - server
+
+  server:
+    build: ./server
+
+    ports:
+      - "5000:5000"
+
+    depends_on:
+      - mongodb
+
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/mernapp
+
+  mongodb:
+    image: mongo:7
+
+    container_name: mongodb
+
+    restart: always
+
+    ports:
+      - "27017:27017"
+
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+
+  mongo-data:
